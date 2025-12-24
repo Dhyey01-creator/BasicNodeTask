@@ -1,0 +1,33 @@
+User model: name, email, password, role
+
+APIs:
+POST /register
+POST /login
+Hash password (bcrypt)
+Generate JWT on login
+
+2️⃣ JWT Middleware
+Read token from Authorization
+Verify token
+Attach req.user
+Block if invalid / expired
+
+3️⃣ Protected CRUD 
+
+Task model: title, status, userId
+APIs (protected):
+POST /tasks
+GET /tasks (only own tasks)
+PUT /tasks/:id
+DELETE /tasks/:id
+
+4️⃣ Role-Based Access
+
+Admin-only APIs:
+GET /users
+DELETE /users/:id
+
+Create adminMiddleware
+
+5️⃣ Pagination + Filter
+GET /tasks?status=pending&page=1&limit=5
