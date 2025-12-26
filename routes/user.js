@@ -1,4 +1,3 @@
-const User = require("../models/user");
 const { registerUser, loginUser } = require("../controllers/user");
 const express = require("express");
 const router = express.Router();
