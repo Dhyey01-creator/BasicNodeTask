@@ -16,6 +16,7 @@ const messages = {
   TASK_CREATED: "Task created successfully",
   TASKS_FETCHED: "Tasks retrieved successfully",
   TASK_NOT_FOUND: "Task not found",
+  TASK_ALREADY_EXISTS: "Task with the same title already exists",
   TASK_REQUIRED_FIELDS: "Missing required task fields",
   TASK_UPDATED: "Task updated successfully",
   TASK_DELETED: "Task deleted successfully",

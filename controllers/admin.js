@@ -6,8 +6,25 @@ const Task = require("../models/task");
 
 async function getUsers(req, res) {
     try {
-        const users = await User.find();
-        return sendApiResponse(res, HTTP_STATUS.OK, messages.USERS_FETCHED, users);
+        const { page = 1, limit = 10 } = req.query;
+
+        const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+        const limitNum = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100);
+
+        const total = await User.countDocuments();
+        const users = await User.find()
+            .sort({ createdAt: -1})
+            .skip((pageNum - 1) * limitNum)
+            .limit(limitNum);
+
+        const meta = {
+            total,
+            page: pageNum,
+            limit: limitNum,
+            totalPages: Math.ceil(total / limitNum) || 1,
+        };
+
+        return sendApiResponse(res, HTTP_STATUS.OK, messages.USERS_FETCHED, { items: users, meta });
     } catch (error) {
         return sendApiResponse(res, HTTP_STATUS.INTERNAL_SERVER_ERROR, messages.SERVER_ERROR, error);
     }

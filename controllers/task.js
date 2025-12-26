@@ -8,9 +8,12 @@ async function createTask(req, res) {
     try {
         const { title, description, status } = req.body;
         let user = req.headers.user;
+        if(!title || !description || !status) {
+            return sendApiResponse(res, HTTP_STATUS.BAD_REQUEST, messages.TASK_REQUIRED_FIELDS);
+        }
                 const task = await Task.findOne({ title: title, userId: user._id });
                 if (task) {
-                    return sendApiResponse(res, HTTP_STATUS.BAD_REQUEST, "messages.TASK_ALREADY_EXISTS");
+                    return sendApiResponse(res, HTTP_STATUS.BAD_REQUEST, messages.TASK_ALREADY_EXISTS);
                 }
 
         const newTask = new Task({ userId: user._id, title, description, status});
@@ -61,8 +64,10 @@ async function updateTask(req, res) {
     try {
         const { id } = req.params;
         const { title, description, status } = req.body;
+        if(!title && !description && !status) {
+            return sendApiResponse(res, HTTP_STATUS.BAD_REQUEST, "No fields to update provided");
+        }
         let user = req.headers.user;
-
         const task = await Task.findOne({ _id: id, userId: user._id });
         if (!task) {
             return sendApiResponse(res, HTTP_STATUS.NOT_FOUND, messages.TASK_NOT_FOUND);
